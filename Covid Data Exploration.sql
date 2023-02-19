@@ -135,23 +135,7 @@ select * from #percentpopulationvaccinated
 where location like 'India'
 
  
-create table percentpopulationvaccinated
-(
-continent nvarchar(255),
-location nvarchar(255),
-date datetime,
-population numeric,
-new_vaccination numeric,
-rollingvaccination numeric
-)
 
-insert into #percentpopulationvaccinated
-select death.continent, death.location, death.date, death.population, vac.new_vaccinations
-,sum(cast(vac.new_vaccinations as bigint)) over (partition by death.location order by death.location, death.date) as rollingpplvaccinated
-from SQLTutorial..Covid_deaths death
-join SQLTutorial..Covid_vaccination vac
-on death.location = vac.location
-and death.date = vac.date
-where death.continent is not null
+
 
 
